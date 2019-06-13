@@ -52,7 +52,7 @@ public class App
         params.setStep("15");
 
         PromeClient client = new PromeClient();
-        PromeResultEntity resultEntity = client.query_range_get(params);
+        PromeResultEntity resultEntity = client.query_range_post(params);
         System.out.println(resultEntity.getStatus());
 
 

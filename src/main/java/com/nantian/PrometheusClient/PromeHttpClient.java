@@ -87,8 +87,10 @@ public class PromeHttpClient {
 
         paramMap.forEach((k, y)->{
 
-            NameValuePair valuePair = new BasicNameValuePair(k, y);
-            nameValuePairs.add(valuePair);
+            if (y != null){
+                NameValuePair valuePair = new BasicNameValuePair(k, y);
+                nameValuePairs.add(valuePair);
+            }
 
         });
 
