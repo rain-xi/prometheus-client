@@ -4,6 +4,7 @@ import com.nantian.entity.UrlParams;
 import com.nantian.utils.JacksonUtil;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -15,6 +16,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -33,10 +35,15 @@ public class PromeHttpClient {
         T t = null;
 
         uriBuilder = new URIBuilder(path);
-        uriBuilder.addParameters(this.transParams(params));
+        if (params != null){
+            uriBuilder.addParameters(this.transParams(params));
+        }
 
         HttpGet get = new HttpGet(uriBuilder.build());
         get.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+
+        RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(10000).setConnectTimeout(10000).build();
+        get.setConfig(requestConfig);
 
         CloseableHttpResponse response = client.execute(get);
 
@@ -62,6 +69,9 @@ public class PromeHttpClient {
         StringEntity entity = new UrlEncodedFormEntity(this.transParams(params), "UTF-8");
         post.setEntity(entity);
         post.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+
+        RequestConfig requestConfig = RequestConfig.custom().setSocketTimeout(10000).setConnectTimeout(10000).build();
+        post.setConfig(requestConfig);
 
         CloseableHttpResponse response = client.execute(post);
 
@@ -95,6 +105,18 @@ public class PromeHttpClient {
         });
 
         return nameValuePairs;
+    }
+
+    /**
+     * 关闭HTTPClient
+     */
+    public void close(){
+
+        try {
+            client.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

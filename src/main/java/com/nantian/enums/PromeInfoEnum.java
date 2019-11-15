@@ -2,7 +2,7 @@ package com.nantian.enums;
 
 public enum PromeInfoEnum {
 
-    URL("http://10.10.47.12:9090"),
+    URL("http://nt.prometheus:9090"),
 
     PATH("/api/v1"),
 
@@ -13,6 +13,18 @@ public enum PromeInfoEnum {
     QUERY("/query"),
 
     QUERY_RANGE("/query_range"),
+
+    ALERTS("/alerts"),
+
+    LABELS_VALUE("/label/&labelName&/values"),
+
+    NODE_EXPORTER_PORT("9100"),
+
+    ALERT_YAML_NAME("global-rule.yml"),
+
+    PROM_CM_NAME("prometheus-config"),
+
+    PROM_CM_NAMESPACE("monitor"),
 
     ;
 
